@@ -1,0 +1,7 @@
+#bgimage {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("https://stuchbeddings.com/wp-content/uploads/2024/11/IMG-20241108-WA0003.jpg");
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+background-attachment: fixed;
+}

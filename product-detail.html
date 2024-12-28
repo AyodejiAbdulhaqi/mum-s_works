@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Detail</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+  <!-- Header -->
+  <header class="bg-white text-white p-4">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+      <h1 class="text-2xl font-bold text-gray-700 mb-4 md:mb-0">ShopZone</h1>
+      
+      <!-- Search Bar -->
+      <div class="flex items-center mb-4 md:mb-0 md:w-auto w-full">
+        <input 
+          type="text" 
+          placeholder="Search for products..." 
+          id="searchBar"
+          class="w-full md:w-72 px-4 py-1 rounded-l-lg border focus:outline-none text-gray-700">
+        <button 
+          id="searchButton"
+          class="bg-white text-gray-500 px-4 py-1 rounded-r-lg hover:bg-gray-100 border w-full md:w-auto">
+          Search
+        </button>
+      </div>
+
+      <!-- Login and Cart Buttons -->
+      <div class="flex md:space-x-4 space-x-0 flex-col md:flex-row items-center">
+        <button id="loginButton" class="bg-white text-gray-700 p-2 rounded hover:bg-gray-100 w-full md:w-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-gray-700">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12l4-4m0 0l-4-4m4 4H3"></path>
+          </svg>
+        </button>
+        <button id="cartButton" class="bg-white text-gray-700 p-2 rounded hover:bg-gray-100 w-full md:w-auto relative group">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-gray-700">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-2 12H5L3 3z"></path>
+          </svg>
+          <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="bg-gray-800 text-white py-3">
+    <div class="container mx-auto flex justify-center space-x-6">
+      <a href="./index.html" class="hover:text-gray-400">Home</a>
+      <a href="./Categories.html" class="hover:text-gray-400">Categories</a>
+      <a href="./Deals.html" class="hover:text-gray-400">Deals</a>
+      <a href="./Contact.html" class="hover:text-gray-400">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Product Details Section -->
+  <div class="container mx-auto py-8">
+    <div class="flex flex-col md:flex-row justify-between gap-8">
+
+      <!-- Product Image and Details -->
+      <div class="w-full md:w-1/2">
+        <img id="productImage" src="" alt="Product Image" class="w-full h-72 object-cover cursor-pointer mb-4 rounded-lg" onclick="showImageModal()">
+        <div id="product-detail">
+          <h1 class="text-3xl font-semibold" id="productName"></h1>
+          <p class="text-gray-500" id="productCategory"></p>
+          <p class="text-gray-700 mt-4" id="productDescription"></p>
+        </div>
+        
+        <!-- Image Modal -->
+        <div id="imageModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 hidden justify-center items-center" onclick="closeImageModal()">
+          <img id="largeImage" src="" alt="Large Product Image" class="max-w-full max-h-full">
+        </div>
+      </div>
+
+      <!-- Price, Social Media Icons, and Review Section -->
+      <div class="w-full md:w-1/2">
+        <p class="text-xl font-bold mt-2" id="productPrice"></p>
+        
+        <!-- Best Features Section -->
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold">Best Features</h3>
+          <ul class="list-disc pl-5 mt-2">
+            <li>High-quality materials for durability</li>
+            <li>Modern design for a stylish look</li>
+            <li>Long-lasting</li>
+            <li>Easy to use with user-friendly controls</li>
+          </ul>
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="mt-4 flex space-x-4">
+          <a href="#" class="text-blue-500 hover:text-blue-700">Facebook</a>
+          <a href="#" class="text-blue-400 hover:text-blue-600">Twitter</a>
+          <a href="#" class="text-red-500 hover:text-red-700">Instagram</a>
+        </div>
+
+        <!-- Buy Now Button -->
+        <div class="mt-6">
+            <a id="buyNowButton" 
+               href="#"
+               class="w-full bg-green-600 text-white text-sm py-2 px-8 rounded text-center hover:bg-green-700" target="_blank">
+               Buy Now
+            </a>
+        </div>
+
+        <!-- Review Section -->
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold">Add a Review</h3>
+          <textarea class="w-full h-24 p-2 border rounded mt-2" placeholder="Write your review here..."></textarea>
+          <button class="mt-4 w-full bg-gray-300 text-white py-2 rounded hover:bg-orange-600">Submit Review</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script to Populate Product Details and Modal Functions -->
+  <script>
+    // Get product data from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+    const price = urlParams.get('price');
+    const category = urlParams.get('category');
+    const image = urlParams.get('image');
+    const description = urlParams.get('description'); // Added description parameter
+
+    // Populate the product detail page
+    const productName = document.getElementById('productName');
+    const productCategory = document.getElementById('productCategory');
+    const productPrice = document.getElementById('productPrice');
+    const productImage = document.getElementById('productImage');
+    const productDescription = document.getElementById('productDescription'); // New element for description
+    const buyNowButton = document.getElementById('buyNowButton');
+
+    productName.textContent = name;
+    productCategory.textContent = category;
+    productPrice.textContent = price;
+    productImage.src = image;
+    productDescription.textContent = description ? description : "No description available"; // Display description
+
+    // Update the Buy Now button URL with the product name
+    buyNowButton.href = `https://wa.me/1234567890?text=I'm%20interested%20in%20buying%20the%20product%20named%20'${name}'`;
+
+    // Modal functions
+    function showImageModal() {
+      const modal = document.getElementById('imageModal');
+      const largeImage = document.getElementById('largeImage');
+      largeImage.src = image;
+      modal.classList.remove('hidden');
+    }
+
+    function closeImageModal() {
+      const modal = document.getElementById('imageModal');
+      modal.classList.add('hidden');
+    }
+  </script>
+
+</body>
+</html>
